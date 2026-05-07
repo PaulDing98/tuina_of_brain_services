@@ -2,7 +2,7 @@
 Author: PaulDing 1031071856@qq.com
 Date: 2026-04-04 09:39:33
 LastEditors: PaulDing 1031071856@qq.com
-LastEditTime: 2026-04-04 21:04:04
+LastEditTime: 2026-05-04 12:27:59
 FilePath: /services/app/core/exception_handlers.py
 Description: 
 
@@ -26,7 +26,6 @@ def error_response(
         return JSONResponse(
             status_code=status_code,
             content={
-            "success": False,
             "code": code,
             "message": message,
             "data": None,

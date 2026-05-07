@@ -2,7 +2,7 @@
 Author: PaulDing 1031071856@qq.com
 Date: 2026-03-28 18:44:51
 LastEditors: PaulDing 1031071856@qq.com
-LastEditTime: 2026-04-04 09:59:46
+LastEditTime: 2026-05-07 10:49:22
 FilePath: /services/app/main.py
 Description: 
 
@@ -12,12 +12,13 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.exceptions import RequestValidationError
 from starlette.exceptions import HTTPException
-from app.api.v1 import training, progress, export, auth, settings
+from app.api.v1 import training, progress, export, auth
+from app.api.v1 import settings as settings_router
 from app.db.session import engine, Base
 import app.models # 确保 User 模型被导入注册
 from app.core.exceptions import AppException
 from app.core.exception_handlers import app_exception_handler, validation_exception_handler, http_exception_handler,unhandled_exception_handler
-
+from app.core.config import settings
 
 Base.metadata.create_all(bind=engine)
 app = FastAPI(
@@ -29,7 +30,8 @@ app = FastAPI(
 # CORS 配置
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://localhost:3000"],
+    # allow_origins=["http://localhost:5173", "http://localhost:3000"],
+    allow_origins= settings.CORS_ORIGINS,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -40,7 +42,7 @@ app.include_router(training.router, prefix="/api/v1/training", tags=["training"]
 app.include_router(progress.router, prefix="/api/v1/progress", tags=["progress"])
 app.include_router(export.router, prefix="/api/v1/export", tags=["export"])
 app.include_router(auth.router, prefix="/api/v1/auth", tags=["auth"])
-app.include_router(settings.router, prefix="/api/v1/settings", tags=["settings"])
+app.include_router(settings_router.router, prefix="/api/v1/settings", tags=["settings"])
 
 
 # 全局异常处理

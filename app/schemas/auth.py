@@ -2,7 +2,7 @@
 Author: PaulDing 1031071856@qq.com
 Date: 2026-04-03 11:30:13
 LastEditors: PaulDing 1031071856@qq.com
-LastEditTime: 2026-04-15 12:08:57
+LastEditTime: 2026-04-24 20:23:08
 FilePath: /services/app/schemas/auth.py
 Description: 
 
@@ -23,6 +23,7 @@ class RegisterRequest(BaseModel):
 class LoginRequest(BaseModel):
     email: EmailStr
     password: str = Field(min_length=8)
+    remember: bool = False
     
 class RefreshRequest(BaseModel):
     refreshToken: str
@@ -30,5 +31,5 @@ class RefreshRequest(BaseModel):
 class AuthResponseData(BaseModel):
     tokenType: str = "Bearer"
     accessToken: str
-    refreshToken: str
+    refreshToken: str | None
     expiresAt: int

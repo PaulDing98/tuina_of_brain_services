@@ -2,7 +2,7 @@
 Author: PaulDing 1031071856@qq.com
 Date: 2026-04-04 09:39:24
 LastEditors: PaulDing 1031071856@qq.com
-LastEditTime: 2026-04-18 20:15:29
+LastEditTime: 2026-05-04 12:54:57
 FilePath: /services/app/core/exceptions.py
 Description: 
 
@@ -39,7 +39,7 @@ class UserAlreadyExistsException(AppException):
         status_code=409,
         )
         
-class UserDidNotExistsExcepytion(AppException):
+class UserDidNotExistsException(AppException):
     def __init__(self):
         super().__init__(
         code="USER_DID_NOT_EXISTS",
@@ -54,6 +54,15 @@ class InvalidCredentialsException(AppException):
         message="账号或密码错误",
         status_code=401,
         )
+        
+class TestDevelopmentException(AppException):
+    def __init__(self):
+        super().__init__(
+        code="TESTING",
+        message="测试专业",
+        status_code=409,
+        )
+        
 
 class ExpiredCredentialsException(AppException):
     def __init__(self):

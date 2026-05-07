@@ -2,7 +2,7 @@
 Author: PaulDing 1031071856@qq.com
 Date: 2026-04-05 08:18:06
 LastEditors: PaulDing 1031071856@qq.com
-LastEditTime: 2026-04-18 14:22:24
+LastEditTime: 2026-04-24 22:47:19
 FilePath: /services/app/core/security.py
 Description: 
 
@@ -64,21 +64,21 @@ def verify_token(token: str, token_type : str) -> str:
     payload = decode_token(token)
     if payload.get("type") != token_type:
         raise ExpiredCredentialsException()
-    user_id = payload.get("sub")
-    if not user_id: 
+    if user_id := payload.get("sub"):
+        return user_id
+    else: 
         raise ExpiredCredentialsException()
-    return user_id  
-
     
 
 # 注册登录返回用的
-def build_auth_response(user_id: str) -> AuthResponseData:
+def build_auth_response(user_id: str, remember: bool = True) -> AuthResponseData:
+    
     access_token, expires_at = _create_token(
         user_id=user_id,
         expires_delta=timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES),
         token_type="access",
     )
-    refresh_token = create_refresh_token(user_id)
+    refresh_token = create_refresh_token(user_id) if remember else None
     return AuthResponseData(
         tokenType="Bearer",
         accessToken=access_token,

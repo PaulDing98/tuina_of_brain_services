@@ -1,0 +1,6 @@
+-r requirements.in
+
+# Development tooling
+pytest>=7.4.0
+httpx>=0.25.0
+pip-tools>=7.4.1
